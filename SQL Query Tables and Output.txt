@@ -1,0 +1,78 @@
+--Determine the number of times a particular channel was used in the web_events table for each sales rep. Your final table should have three columns - the name of the sales rep, the channel, and the number of occurrences. Order your table with the highest number of occurrences first.
+
+SELECT r.name, w.channel, COUNT(*) num_events
+FROM accounts a
+JOIN web_events w
+ON a.id = w.account_id
+JOIN sales_reps s
+ON a.sales_rep_id = s.id
+JOIN region r 
+ON s.region_id=r.id
+GROUP BY r.name, w.channel
+ORDER BY num_events DESC;
+
+Output:
+name	channel	num_events
+Northeast	direct	1800
+Southeast	direct	1548
+West	direct	1254
+Midwest	direct	696
+Northeast	facebook	335
+Northeast	organic	317
+Northeast	adwords	300
+Southeast	facebook	278
+Southeast	organic	275
+Southeast	adwords	264
+West	organic	243
+West	adwords	241
+West	facebook	229
+Northeast	banner	155
+Northeast	twitter	154
+Southeast	banner	146
+Southeast	twitter	127
+Midwest	facebook	125
+West	twitter	122
+Midwest	organic	117
+West	banner	116
+Midwest	adwords	101
+Midwest	twitter	71
+Midwest	banner	59
+
+--For each account, determine the average amount of each type of paper they purchased across their orders. Your result should have four columns - one for the account name and one for the average spent on each of the paper types.
+
+SELECT a.name, AVG(o.standard_qty) avg_stand, AVG(o.gloss_qty) avg_gloss, AVG(o.poster_qty) avg_post
+FROM accounts a
+JOIN orders o
+ON a.id = o.account_id
+GROUP BY a.name;
+
+Truncated Output:
+name	avg_stand	avg_gloss	avg_post
+Boeing	360.2666666666666667	222.3333333333333333	107.9333333333333333
+Western Digital	192.7846153846153846	239.8307692307692308	170.2615384615384615
+Sysco	191.0588235294117647	231.1764705882352941	173.8676470588235294
+Southern	347.5000000000000000	27.7500000000000000	24.9000000000000000
+Altria Group	381.0980392156862745	22.4901960784313725	25.5686274509803922
+Energy Transfer Equity	222.1666666666666667	158.5000000000000000	118.3333333333333333
+Aramark	120.2500000000000000	126.8750000000000000	143.0000000000000000
+Cognizant Technology Solutions	253.8666666666666667	260.8666666666666667	116.5333333333333333
+Time Warner	254.3333333333333333	246.8888888888888889	91.3333333333333333
+Marsh & McLennan	174.0000000000000000	253.2500000000000000	160.0000000000000000
+
+
+--Find the number of sales reps in each region. Your final table should have two columns - the region and the number of sales_reps. Order from fewest reps to most reps.
+SELECT r.name, COUNT(*) num_reps
+FROM region r
+JOIN sales_reps s
+ON r.id = s.region_id
+GROUP BY r.name
+ORDER BY num_reps;
+
+Output:
+name	num_reps
+Midwest	9
+Southeast	10
+West	10
+Northeast	21
+
+
